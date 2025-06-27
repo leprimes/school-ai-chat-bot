@@ -1,3 +1,4 @@
+import difflib
 import socket
 
 dictionary = {
@@ -51,12 +52,15 @@ dictionary = {
     "¿Cuál es tu lema personal?": "Haz lo mejor que puedas con lo que tienes.",
     "¿Qué te relaja?": "Leer junto a una taza de té.",
     "¿Qué te pone de buen humor al instante?": "Un mensaje inesperado de alguien que aprecio.",
-    "¿Qué opinas sobre el perdón?": "Es liberador, aunque no siempre fácil."
-}
+    "¿Qué opinas sobre el perdón?": "Es liberador, aunque no siempre fácil.",
+    "¿Quieres jugar ajedrez?": "Claro! <a href='/chess/'><button class='bg-blue-500 text-white px-4 py-1 rounded'>Jugar</button></a>"
+    }
 
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serv.bind(('0.0.0.0', 8080))
 serv.listen(5)
+
+print("Servidor escuchando en el puerto 8080...")
 while True:
   conn, addr = serv.accept()
   from_client = ''
@@ -64,10 +68,16 @@ while True:
     data = conn.recv(4096)
     if not data: break
     
-    from_client += data.decode('utf8')
+    # lowercase
+    from_client += data.decode('utf8').strip().lower()
+    print(f"Consulta recibida: {from_client}")
+
+    # Find close matches in the dictionary  
+    close_matches = difflib.get_close_matches(from_client, dictionary.keys(), n=1, cutoff=0.6)
     
-    if from_client in dictionary:
-      respuesta = dictionary[from_client]
+    if close_matches:
+      matched_question = close_matches[0]
+      respuesta = dictionary[matched_question]
       conn.send(respuesta.encode())
     else:
       conn.send("No tengo una respuesta para eso.".encode())
