@@ -53,7 +53,8 @@ dictionary = {
     "¿Qué te relaja?": "Leer junto a una taza de té.",
     "¿Qué te pone de buen humor al instante?": "Un mensaje inesperado de alguien que aprecio.",
     "¿Qué opinas sobre el perdón?": "Es liberador, aunque no siempre fácil.",
-    "¿Quieres jugar ajedrez?": "Claro! <a href='/chess/'><button class='bg-blue-500 text-white px-4 py-1 rounded'>Jugar</button></a>"
+    "¿Quieres jugar ajedrez?": "Claro! <a href='/chess/'><button class='bg-blue-500 text-white px-4 py-1 rounded'>Jugar</button></a>",
+    "Ver mapa de lugares más emblemáticos de ZMG" : "Claro! <a href='/map/'><button class='bg-blue-500 text-white px-4 py-1 rounded'>Ver mapa</button></a>"
     }
 
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

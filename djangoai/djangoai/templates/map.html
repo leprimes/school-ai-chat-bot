@@ -1,0 +1,150 @@
+<html>
+  <head>
+    <title>Directions Service</title>
+
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <style>
+      /* 
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ */
+      #map {
+        height: 100%;
+      }
+
+      /* 
+ * Optional: Makes the sample page fill the window. 
+ */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: "Roboto", "sans-serif";
+        line-height: 30px;
+        padding-left: 10px;
+      }
+      .home {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: "Roboto", "sans-serif";
+        line-height: 30px;
+      }
+    </style>
+    <script>
+      function initMap() {
+        const directionsService = new google.maps.DirectionsService();
+        const directionsRenderer = new google.maps.DirectionsRenderer();
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 13,
+          center: { lat: 20.6767, lng: -103.3475 }, // Guadalajara centro
+        });
+
+        directionsRenderer.setMap(map);
+
+        const onChangeHandler = function () {
+          calculateAndDisplayRoute(directionsService, directionsRenderer);
+        };
+
+        document
+          .getElementById("start")
+          .addEventListener("change", onChangeHandler);
+        document
+          .getElementById("end")
+          .addEventListener("change", onChangeHandler);
+      }
+
+      function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+        directionsService
+          .route({
+            origin: {
+              query: document.getElementById("start").value,
+            },
+            destination: {
+              query: document.getElementById("end").value,
+            },
+            travelMode: google.maps.TravelMode.DRIVING,
+          })
+          .then((response) => {
+            directionsRenderer.setDirections(response);
+          })
+          .catch((e) =>
+            window.alert("Directions request failed due to " + status)
+          );
+      }
+
+      window.initMap = initMap;
+    </script>
+  </head>
+  <body>
+    <div class="home"><a href="/">Regresar al bot.</a></div>
+    <div id="floating-panel">
+      <b>Inicio: </b>
+      <select id="start">
+        <option value="Glorieta Minerva, Guadalajara">Glorieta Minerva</option>
+        <option value="Catedral de Guadalajara, Guadalajara">
+          Catedral de Guadalajara
+        </option>
+        <option value="Hospicio Cabañas, Guadalajara">Hospicio Cabañas</option>
+        <option value="Teatro Degollado, Guadalajara">Teatro Degollado</option>
+        <option value="Plaza Tapatía, Guadalajara">Plaza Tapatía</option>
+        <option value="Templo Expiatorio del Santísimo Sacramento, Guadalajara">
+          Templo Expiatorio
+        </option>
+        <option value="Mercado San Juan de Dios, Guadalajara">
+          Mercado San Juan de Dios
+        </option>
+        <option value="Andares, Guadalajara">Andares</option>
+      </select>
+
+      <b>Destino: </b>
+      <select id="end">
+        <option value="Glorieta Minerva, Guadalajara">Glorieta Minerva</option>
+        <option value="Catedral de Guadalajara, Guadalajara">
+          Catedral de Guadalajara
+        </option>
+        <option value="Hospicio Cabañas, Guadalajara">Hospicio Cabañas</option>
+        <option value="Teatro Degollado, Guadalajara">Teatro Degollado</option>
+        <option value="Plaza Tapatía, Guadalajara">Plaza Tapatía</option>
+        <option value="Templo Expiatorio del Santísimo Sacramento, Guadalajara">
+          Templo Expiatorio
+        </option>
+        <option value="Mercado San Juan de Dios, Guadalajara">
+          Mercado San Juan de Dios
+        </option>
+        <option value="Andares, Guadalajara">Andares</option>
+      </select>
+    </div>
+
+    <div id="map"></div>
+
+    <!-- 
+      The `defer` attribute causes the script to execute after the full HTML
+      document has been parsed. For non-blocking uses, avoiding race conditions,
+      and consistent behavior across browsers, consider loading using Promises. See
+      https://developers.google.com/maps/documentation/javascript/load-maps-js-api
+      for more information.
+      -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0sLyHCDoAi4BQKskFwdCE4hXLJfd973E&callback=initMap&v=weekly"
+      defer
+    ></script>
+  </body>
+</html>

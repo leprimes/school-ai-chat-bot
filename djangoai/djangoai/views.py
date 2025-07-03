@@ -17,3 +17,6 @@ def ask_bot(request):
         return JsonResponse({"reply": reply})
 def chess_game(request):
     return redirect('/static/chess-ai-main/index.html')
+
+def map_view(request):
+    return render(request, "map.html")
